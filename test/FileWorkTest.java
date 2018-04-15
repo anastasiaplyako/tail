@@ -5,11 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class FileWorkTest {
 
-    private boolean fileEquals(String way1,String way2) throws IOException {
+    private boolean fileEquals(String way1, String way2) throws IOException {
 
         FileReader file1 = new FileReader(way1);
         FileReader file2 = new FileReader(way2);
@@ -17,7 +19,7 @@ public class FileWorkTest {
         BufferedReader bufferedReader2 = new BufferedReader(file2);
         String correctStr1 = bufferedReader1.readLine();
         String correctStr2 = bufferedReader2.readLine();
-        while ( correctStr1 != null && correctStr2 != null) {
+        while (correctStr1 != null && correctStr2 != null) {
             if (!correctStr1.equals(correctStr2)) return false;
             correctStr1 = bufferedReader1.readLine();
             correctStr2 = bufferedReader2.readLine();
@@ -33,15 +35,15 @@ public class FileWorkTest {
         try {
             new FileWork("tail -n 4 -o outputFiles/testFile1 inputFiles/file1 inputFiles/file2");
             new FileWork("tail -c 30 -o outputFiles/testFile2 inputFiles/file1 inputFiles/file2");
-            new FileWork("tail -n 27 -o outputFiles/testFile3 inputFiles/file1 inputFiles/file2 inputFiles/file3 inputFiles/file4" );
-
+            new FileWork("tail -n 27 -o outputFiles/testFile3 inputFiles/file1 inputFiles/file2 inputFiles/file3 inputFiles/file4");
+            new FileWork("tail  -o outputFiles/testFile4 inputFiles/file1");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         assertTrue(fileEquals("outputFiles/testFile1", "testFiles/trueFile1"));
         assertTrue(fileEquals("outputFiles/testFile2", "testFiles/trueFile2"));
         assertTrue(fileEquals("outputFiles/testFile3", "testFiles/trueFile3"));
+        assertTrue(fileEquals("outputFiles/testFile4", "testFiles/trueFile4"));
     }
-
-
 }
