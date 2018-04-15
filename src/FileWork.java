@@ -165,21 +165,5 @@ public class FileWork {
             }
         }
     }
-    /**
-    public FileWriter mainFun(String str) throws IOException {
-        ArrayList res = new ArrayList<String>();
-        FileWriter fileOut = new FileWriter(oName);
-        //обработки строки
-        String[] command = analysisStr(str);
-        if(nNum != -1) {
-            res = readLine(command);
-        } else if (cNum != -1){
-            res = readChar(command);
-        } else {
-            res = readElse(command);
-        }
-        return writeFileOut(command, res);
-    }
-    */
 }
 

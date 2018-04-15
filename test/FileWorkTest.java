@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FileWorkTest {
 
     private boolean fileEquals(String way1,String way2) throws IOException {
+
         FileReader file1 = new FileReader(way1);
         FileReader file2 = new FileReader(way2);
         BufferedReader bufferedReader1 = new BufferedReader(file1);
@@ -32,11 +33,14 @@ public class FileWorkTest {
         try {
             new FileWork("tail -n 4 -o outputFiles/testFile1 inputFiles/file1 inputFiles/file2");
             new FileWork("tail -c 30 -o outputFiles/testFile2 inputFiles/file1 inputFiles/file2");
+            new FileWork("tail -n 27 -o outputFiles/testFile3 inputFiles/file1 inputFiles/file2 inputFiles/file3 inputFiles/file4" );
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         assertTrue(fileEquals("outputFiles/testFile1", "testFiles/trueFile1"));
         assertTrue(fileEquals("outputFiles/testFile2", "testFiles/trueFile2"));
+        assertTrue(fileEquals("outputFiles/testFile3", "testFiles/trueFile3"));
     }
 
 
