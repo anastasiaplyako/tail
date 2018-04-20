@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReadLine {
-    public ArrayList read(int index,String[] command,int nNum) throws IOException {
+    public ArrayList read(int index, String[] command, int nNum) throws IOException {
         ArrayList res = new ArrayList<String>();
         int length = command.length;
         for (int i = index; i < length; i++) {

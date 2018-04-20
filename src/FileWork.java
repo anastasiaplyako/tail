@@ -2,6 +2,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.IllegalFormatException;
+import java.util.List;
 
 
 public class FileWork {
@@ -22,7 +23,7 @@ public class FileWork {
         nNum = flags.flagN();
         oName = flags.flagO();
         index = flags.indexInCommand();
-        ArrayList res = new ArrayList<String>();
+        List res = new ArrayList<String>();
         //случай,в котором указано два флага с и n
         if (cNum != -1 && nNum != -1) throw new IllegalArgumentException("одновременно указаны 2 флага");
         //если имя входных файлов не указано, то считываем с консоли
@@ -45,48 +46,41 @@ public class FileWork {
         }
         writeFileOut(command, res);
     }
-
     //создание и запись в файл
-    private void writeFileOut(String[] command, ArrayList res) throws IOException {
-        String wayOut = "";
-        if (!oName.equals("")) {
-            wayOut = oName;
-            try (FileWriter fileOut = new FileWriter(wayOut)) {
-                if (nNum != -1) {
-                    for (int j = res.size() - nNum; j < res.size() - 1; j++) {
-                        fileOut.write(res.get(j).toString() + "\n");
+    private void writeFileOut(String[] command, List res) throws IOException {
+        try (FileWriter fileOut = new FileWriter(oName)) {
+            if (cNum != -1) {
+                if (!oName.equals("")) {
+                    for (int j = res.size() - cNum; j < res.size(); j++) {
+                        fileOut.write(res.get(j).toString());
                     }
-                    fileOut.write(res.get(res.size() - 1).toString());
                 } else {
-                    if (cNum != -1) {
-                        for (int j = res.size() - cNum; j < res.size(); j++) {
-                            fileOut.write(res.get(j).toString());
-                        }
-                    } else {
-                        for (int j = 0; j < res.size(); j++) {
-                            fileOut.write(res.get(j).toString());
-                        }
+                    for (int j = res.size() - cNum; j < res.size(); j++) {
+                        System.out.println(res.get(j).toString());
                     }
                 }
-                fileOut.flush();
-
-            } catch (IOException ex) {
-                System.out.print(ex.getMessage());
-            }
-        }
-        //случай, в котором не указано имя выходного файла (консольный вывод)
-        else {
-            if (nNum != -1) {
-                for (int j = res.size() - nNum; j < res.size() - 1; j++) {
-                    System.out.println(res.get(j).toString() + "\n");
-                }
-                System.out.println(res.get(res.size() - 1).toString());
             } else {
-                for (int j = res.size() - cNum; j < res.size(); j++) {
-                    System.out.println(res.get(j).toString());
+                if (nNum != -1) {
+                    if (!oName.equals("")) {
+                        for (int j = res.size() - nNum; j < res.size() - 1; j++) {
+                            fileOut.write(res.get(j).toString() + "\n");
+                        }
+                        fileOut.write(res.get(res.size() - 1).toString());
+                    } else {
+                        for (int j = res.size() - nNum; j < res.size() - 1; j++) {
+                            System.out.println(res.get(j).toString() + "\n");
+                        }
+                        System.out.println(res.get(res.size() - 1).toString());
+                    }
+                } else {
+                    for (int j = 0; j < res.size(); j++) {
+                        fileOut.write(res.get(j).toString());
+                    }
                 }
             }
+            fileOut.flush();
+        } catch (IOException ex) {
+            System.out.print(ex.getMessage());
         }
     }
 }
-
